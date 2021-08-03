@@ -27,7 +27,7 @@ from helpers.database.add_user import AddUserToDatabase
 from helpers.display_progress import progress_for_pyrogram, humanbytes
 from helpers.translation import Translation 
 
-Cortana = Client(
+SDFilerenamer = Client(
     session_name=Config.SESSION_NAME,
     api_id=Config.API_ID,
     api_hash=Config.API_HASH,
@@ -36,7 +36,7 @@ Cortana = Client(
 
 CORTANAIMG = "https://telegra.ph/file/27e0b342107cd56704aa9.jpg"
 
-@Cortana.on_message(filters.command("start"))
+@SDFilerenamer.on_message(filters.command("start"))
 async def start(client, message):
     await AddUserToDatabase(client, message)
     FSub = await ForceSub(client, message)
@@ -47,7 +47,7 @@ async def start(client, message):
         caption=Translation.START_TEXT.format(message.from_user.mention),
         reply_markup=Translation.START_BUTTONS
     )
-@Cortana.on_message(filters.private & (filters.video | filters.document | filters.audio))
+@SDFilerenamer.on_message(filters.private & (filters.video | filters.document | filters.audio))
 async def rename_handler(bot: Client, event: Message):
     await AddUserToDatabase(bot, event)
     FSub = await ForceSub(bot, event)
@@ -156,7 +156,7 @@ async def rename_handler(bot: Client, event: Message):
             await reply_.edit("Sorry Unkil,\n5 Minutes Passed! I can't wait more. Send me File Again to Rename.")
 
 
-@Cortana.on_message(filters.private & filters.photo & ~filters.edited)
+@SDFilerenamer.on_message(filters.private & filters.photo & ~filters.edited)
 async def photo_handler(bot: Client, event: Message):
     await AddUserToDatabase(bot, event)
     FSub = await ForceSub(bot, event)
@@ -167,7 +167,7 @@ async def photo_handler(bot: Client, event: Message):
     await editable.edit("Permanent Custom Thumbnail Saved Successfully!")
 
 
-@Cortana.on_message(filters.private & filters.command(["delete_thumbnail", "delete_thumb", "del_thumb", "delthumb"]) & ~filters.edited)
+@SDFilerenamer.on_message(filters.private & filters.command(["delete_thumbnail", "delete_thumb", "del_thumb", "delthumb"]) & ~filters.edited)
 async def delete_thumb_handler(bot: Client, event: Message):
     await AddUserToDatabase(bot, event)
     FSub = await ForceSub(bot, event)
@@ -183,7 +183,7 @@ async def delete_thumb_handler(bot: Client, event: Message):
     )
 
 
-@Cortana.on_message(filters.private & filters.command(["show_thumbnail", "show_thumb", "showthumbnail", "showthumb"]) & ~filters.edited)
+@SDFilerenamer.on_message(filters.private & filters.command(["show_thumbnail", "show_thumb", "showthumbnail", "showthumb"]) & ~filters.edited)
 async def show_thumb_handler(bot: Client, event: Message):
     await AddUserToDatabase(bot, event)
     FSub = await ForceSub(bot, event)
@@ -214,7 +214,7 @@ async def show_thumb_handler(bot: Client, event: Message):
         await event.reply_text("No Thumbnail Found in Database!\nSend a Thumbnail to Save.", quote=True)
 
 
-@Cortana.on_message(filters.private & filters.command(["delete_caption", "del_caption", "remove_caption", "rm_caption"]) & ~filters.edited)
+@SDFilerenamer.on_message(filters.private & filters.command(["delete_caption", "del_caption", "remove_caption", "rm_caption"]) & ~filters.edited)
 async def delete_caption(bot: Client, event: Message):
     await AddUserToDatabase(bot, event)
     FSub = await ForceSub(bot, event)
@@ -224,12 +224,12 @@ async def delete_caption(bot: Client, event: Message):
     await event.reply_text("Custom Caption Removed Successfully!")
 
 
-@Cortana.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER) & filters.reply)
+@SDFilerenamer.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER) & filters.reply)
 async def _broadcast(_, event: Message):
     await broadcast_handler(event)
 
 
-@Cortana.on_message(filters.private & filters.command("status") & filters.user(Config.BOT_OWNER))
+@SDFilerenamer.on_message(filters.private & filters.command("status") & filters.user(Config.BOT_OWNER))
 async def show_status_count(_, event: Message):
     total, used, free = shutil.disk_usage(".")
     total = humanbytes(total)
@@ -246,7 +246,7 @@ async def show_status_count(_, event: Message):
     )
 
 
-@Cortana.on_message(filters.private & filters.command("settings"))
+@SDFilerenamer.on_message(filters.private & filters.command("settings"))
 async def settings_handler(bot: Client, event: Message):
     await AddUserToDatabase(bot, event)
     FSub = await ForceSub(bot, event)
@@ -257,7 +257,7 @@ async def settings_handler(bot: Client, event: Message):
     )
     await OpenSettings(editable, user_id=event.from_user.id)
 
-@Cortana.on_callback_query()
+@SDFilerenamer.on_callback_query()
 async def callback_handlers(bot: Client, cb: CallbackQuery):
     if "closeMeh" in cb.data:
         await cb.message.delete(True)
@@ -437,4 +437,4 @@ If you find any error on this bot please be kind to tell [Developer](https://t.m
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Go Back", callback_data="openSettings")]])
             )
    
-Cortana.run()
+SDFilerenamer.run()
