@@ -34,6 +34,7 @@
  - [TeamSDBots](https://github.com/TeamSDBOTs)
  - [AbirHasan](https://github.com/AbirHasan2005/Rename-Bot)
  - [Leo Ytdl Bot](https://github.com/Naviya2/LeoYouTubeDownloader) 
+ - [InukaAsith](https://github.com/InukaAsith)
 
 
 ## Devs & Contributors
